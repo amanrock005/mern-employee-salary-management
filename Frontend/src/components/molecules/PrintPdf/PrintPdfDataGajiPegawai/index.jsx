@@ -10,6 +10,14 @@ import {
 } from "../../../../config/redux/action";
 import { ButtonOne, ButtonTwo } from "../../../atoms";
 
+const formatDateDDMMYYYY = (date) => {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
+};
+
 const PrintPdfDataGajiPegawai = () => {
     const componentRef = useRef();
     const dispatch = useDispatch();
@@ -18,8 +26,7 @@ const PrintPdfDataGajiPegawai = () => {
     const searchParams = new URLSearchParams(location.search);
     const month = searchParams.get("month");
     const year = searchParams.get("year");
-    const [bulan, setBulan] = useState("");
-    const [tahun, setTahun] = useState("");
+    const [todayLabel, setTodayLabel] = useState("");
 
     const { isError, user } = useSelector((state) => state.auth);
     const { nama_pegawai } = useSelector((state) => state.auth.user) || {};
@@ -53,14 +60,7 @@ const PrintPdfDataGajiPegawai = () => {
 
     useEffect(() => {
         const today = new Date();
-        const monthNames = [
-            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-        ];
-        const currentMonth = monthNames[today.getMonth()];
-        const currentYear = today.getFullYear();
-        setBulan(currentMonth);
-        setTahun(currentYear);
+        setTodayLabel(formatDateDDMMYYYY(today));
     }, []);
 
     return (
@@ -214,7 +214,7 @@ const PrintPdfDataGajiPegawai = () => {
                                     <span>{nama_pegawai}</span>
                                 </div>
                                 <div className="font-medium text-black dark:text-white">
-                                    <span className="text-right">Karawang, {`${new Date().getDate()} ${bulan} ${tahun}`}</span>
+                                    <span className="text-right">Karawang, {todayLabel}</span>
                                     <br />
                                     <span>Finance</span>
                                     <br />
@@ -223,7 +223,7 @@ const PrintPdfDataGajiPegawai = () => {
                                 </div>
                             </div>
                             <div className="italic text-black dark:text-white mt-30">
-                                Dicetak Pada : {`${new Date().getDate()} ${bulan} ${tahun}`}
+                                Dicetak Pada : {todayLabel}
                             </div>
                         </div>
                     );

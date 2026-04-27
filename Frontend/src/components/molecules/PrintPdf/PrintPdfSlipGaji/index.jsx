@@ -12,6 +12,14 @@ import {
 } from "../../../../config/redux/action";
 import { ButtonOne, ButtonTwo } from "../../../atoms";
 
+const formatDateDDMMYYYY = (date) => {
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
+};
+
 const PrintPdfSlipGaji = () => {
     const componentRef = useRef();
     const dispatch = useDispatch();
@@ -22,8 +30,7 @@ const PrintPdfSlipGaji = () => {
     const year = searchParams.get("year");
     const name = searchParams.get("name");
 
-    const [bulan, setBulan] = useState("");
-    const [tahun, setTahun] = useState("");
+    const [todayLabel, setTodayLabel] = useState("");
 
     const { isError, user } = useSelector((state) => state.auth);
     const { dataSlipGaji } = useSelector((state) => state.slipGaji);
@@ -68,14 +75,7 @@ const PrintPdfSlipGaji = () => {
 
     useEffect(() => {
         const today = new Date();
-        const monthNames = [
-            "Januari", "Februari", "Maret", "April", "Mei", "Juni",
-            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-        ];
-        const month = monthNames[today.getMonth()];
-        const year = today.getFullYear();
-        setBulan(month);
-        setTahun(year);
+        setTodayLabel(formatDateDDMMYYYY(today));
     }, []);
 
     return (
@@ -231,7 +231,7 @@ const PrintPdfSlipGaji = () => {
                                     <span>{name}</span>
                                 </div>
                                 <div className="font-medium text-black dark:text-white">
-                                    <span className="text-right">Karawang, {`${new Date().getDate()} ${bulan} ${tahun}`}</span>
+                                    <span className="text-right">Karawang, {todayLabel}</span>
                                     <br />
                                     <span>Finance</span>
                                     <br />
@@ -240,7 +240,7 @@ const PrintPdfSlipGaji = () => {
                                 </div>
                             </div>
                             <div className="italic text-black dark:text-white mt-30">
-                                Dicetak Pada : {`${new Date().getDate()} ${bulan} ${tahun}`}
+                                Dicetak Pada : {todayLabel}
                             </div>
                         </div>
                     );
