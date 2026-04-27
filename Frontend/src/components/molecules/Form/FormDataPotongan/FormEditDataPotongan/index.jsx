@@ -21,9 +21,15 @@ const FormEditDataPotongan = () => {
     const updateDataPotongan = async (e) => {
         e.preventDefault();
         try {
+            const jmlPotonganNum = Number(jmlPotongan);
+            if (!Number.isFinite(jmlPotonganNum) || jmlPotonganNum <= 0) {
+                Swal.fire({ icon: 'error', title: 'Gagal', text: 'Jumlah potongan harus berupa angka positif' });
+                return;
+            }
+
             const formData = new FormData();
             formData.append('potongan', potongan);
-            formData.append('jml_potongan', jmlPotongan);
+            formData.append('jml_potongan', jmlPotonganNum);
 
             const response = await axios.patch(`http://localhost:5000/data_potongan/update/${id}`, formData, {
                 headers: {
@@ -119,6 +125,8 @@ const FormEditDataPotongan = () => {
                                             value={jmlPotongan}
                                             onChange={(e) => setJmlPotongan(e.target.value)}
                                             required
+                                            min={1}
+                                            step={1}
                                             placeholder='Masukkan jumlah potongan'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />

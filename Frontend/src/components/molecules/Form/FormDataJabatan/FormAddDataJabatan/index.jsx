@@ -27,11 +27,29 @@ const FormAddDataJabatan = () => {
 
     const submitDataJabatan = (e) => {
         e.preventDefault();
+
+        const gajiPokokNum = Number(gajiPokok);
+        const tjTransportNum = Number(tjTransport);
+        const uangMakanNum = Number(uangMakan);
+
+        if (!Number.isFinite(gajiPokokNum) || gajiPokokNum <= 0) {
+            Swal.fire({ icon: 'error', title: 'Gagal', text: 'Gaji pokok harus berupa angka positif' });
+            return;
+        }
+        if (!Number.isFinite(tjTransportNum) || tjTransportNum <= 0) {
+            Swal.fire({ icon: 'error', title: 'Gagal', text: 'Tunjangan transport harus berupa angka positif' });
+            return;
+        }
+        if (!Number.isFinite(uangMakanNum) || uangMakanNum <= 0) {
+            Swal.fire({ icon: 'error', title: 'Gagal', text: 'Uang makan harus berupa angka positif' });
+            return;
+        }
+
         const newFormData = new FormData();
         newFormData.append('nama_jabatan', namaJabatan);
-        newFormData.append('gaji_pokok', gajiPokok);
-        newFormData.append('tj_transport', tjTransport);
-        newFormData.append('uang_makan', uangMakan);
+        newFormData.append('gaji_pokok', gajiPokokNum);
+        newFormData.append('tj_transport', tjTransportNum);
+        newFormData.append('uang_makan', uangMakanNum);
 
         dispatch(createDataJabatan(newFormData, navigate))
             .then((response) => {
@@ -131,6 +149,8 @@ const FormAddDataJabatan = () => {
                                             value={gajiPokok}
                                             onChange={handleChange}
                                             required
+                                            min={1}
+                                            step={1}
                                             placeholder='Masukkan gaji pokok'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
@@ -149,6 +169,8 @@ const FormAddDataJabatan = () => {
                                             value={tjTransport}
                                             onChange={handleChange}
                                             required
+                                            min={1}
+                                            step={1}
                                             placeholder='Masukkan tunjangan transport'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
@@ -165,6 +187,8 @@ const FormAddDataJabatan = () => {
                                             value={uangMakan}
                                             onChange={handleChange}
                                             required
+                                            min={1}
+                                            step={1}
                                             placeholder='Masukkan uang makan'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />

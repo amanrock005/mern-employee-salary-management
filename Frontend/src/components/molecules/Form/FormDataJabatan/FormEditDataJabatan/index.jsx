@@ -40,11 +40,28 @@ const FormEditDataJabatan = () => {
     const updateDataJabatan = async (e) => {
         e.preventDefault();
         try {
+            const gajiPokokNum = Number(gajiPokok);
+            const tjTransportNum = Number(tjTransport);
+            const uangMakanNum = Number(uangMakan);
+
+            if (!Number.isFinite(gajiPokokNum) || gajiPokokNum <= 0) {
+                Swal.fire({ icon: 'error', title: 'Gagal', text: 'Gaji pokok harus berupa angka positif' });
+                return;
+            }
+            if (!Number.isFinite(tjTransportNum) || tjTransportNum <= 0) {
+                Swal.fire({ icon: 'error', title: 'Gagal', text: 'Tunjangan transport harus berupa angka positif' });
+                return;
+            }
+            if (!Number.isFinite(uangMakanNum) || uangMakanNum <= 0) {
+                Swal.fire({ icon: 'error', title: 'Gagal', text: 'Uang makan harus berupa angka positif' });
+                return;
+            }
+
             const formData = new FormData();
             formData.append('nama_jabatan', namaJabatan);
-            formData.append('gaji_pokok', gajiPokok);
-            formData.append('tj_transport', tjTransport);
-            formData.append('uang_makan', uangMakan);
+            formData.append('gaji_pokok', gajiPokokNum);
+            formData.append('tj_transport', tjTransportNum);
+            formData.append('uang_makan', uangMakanNum);
 
             const response = await axios.patch(`http://localhost:5000/data_jabatan/${id}`, formData, {
                 headers: {
@@ -123,6 +140,8 @@ const FormEditDataJabatan = () => {
                                             value={gajiPokok}
                                             onChange={(e) => setGajiPokok(e.target.value)}
                                             required
+                                            min={1}
+                                            step={1}
                                             placeholder='Masukkan gaji pokok'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
@@ -141,6 +160,8 @@ const FormEditDataJabatan = () => {
                                             value={tjTransport}
                                             onChange={(e) => setTjTransport(e.target.value)}
                                             required
+                                            min={1}
+                                            step={1}
                                             placeholder='Masukkan tunjangan transport'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
@@ -157,6 +178,8 @@ const FormEditDataJabatan = () => {
                                             value={uangMakan}
                                             onChange={(e) => setUangMakan(e.target.value)}
                                             required
+                                            min={1}
+                                            step={1}
                                             placeholder='Masukkan uang makan'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />

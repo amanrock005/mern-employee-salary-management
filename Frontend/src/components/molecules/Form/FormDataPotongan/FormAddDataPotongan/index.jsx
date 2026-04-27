@@ -23,9 +23,16 @@ const FormAddDataPotongan = () => {
 
     const submitDataPotongan = (e) => {
         e.preventDefault();
+
+        const jmlPotonganNum = Number(jmlPotongan);
+        if (!Number.isFinite(jmlPotonganNum) || jmlPotonganNum <= 0) {
+            Swal.fire({ icon: 'error', title: 'Gagal', text: 'Jumlah potongan harus berupa angka positif' });
+            return;
+        }
+
         const newFormData = new FormData();
         newFormData.append('potongan', potongan);
-        newFormData.append('jml_potongan', jmlPotongan);
+        newFormData.append('jml_potongan', jmlPotonganNum);
 
         dispatch(createDataPotongan(newFormData, navigate))
             .then((response) => {
@@ -126,6 +133,8 @@ const FormAddDataPotongan = () => {
                                             value={jmlPotongan}
                                             onChange={handleChange}
                                             required
+                                            min={1}
+                                            step={1}
                                             placeholder='Masukkan jumlah potongan'
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />

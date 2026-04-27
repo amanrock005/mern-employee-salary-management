@@ -16,7 +16,11 @@ const PotonganGaji = db.define('potongan_gaji',{
         },
         jml_potongan: {
             type: DataTypes.INTEGER(11),
-            allowNull: false
+            allowNull: false,
+            validate: {
+                isInt: true,
+                min: 1
+            }
         }
     },{freezeTableName: true
 });

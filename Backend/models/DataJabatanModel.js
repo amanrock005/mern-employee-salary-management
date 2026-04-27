@@ -19,14 +19,27 @@ const DataJabatan = db.define('data_jabatan',{
         },
         gaji_pokok: {
             type: DataTypes.INTEGER(50),
-            allowNull: false
+            allowNull: false,
+            validate: {
+                isInt: true,
+                min: 1
+            }
         },
         tj_transport: {
             type: DataTypes.INTEGER(50),
-            allowNull: false
+            allowNull: false,
+            validate: {
+                isInt: true,
+                min: 1
+            }
         },
         uang_makan: {
-            type: DataTypes.INTEGER(50)
+            type: DataTypes.INTEGER(50),
+            allowNull: false,
+            validate: {
+                isInt: true,
+                min: 1
+            }
         },
         userId: {
             type: DataTypes.INTEGER,

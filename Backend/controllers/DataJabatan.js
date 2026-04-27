@@ -57,13 +57,27 @@ export const createDataJabatan = async (req, res) => {
         id_jabatan, nama_jabatan, gaji_pokok, tj_transport, uang_makan
     } = req.body;
     try {
+        const gajiPokokNum = Number(gaji_pokok);
+        const tjTransportNum = Number(tj_transport);
+        const uangMakanNum = Number(uang_makan);
+
+        if (!Number.isFinite(gajiPokokNum) || gajiPokokNum <= 0) {
+            return res.status(400).json({ msg: "Gaji pokok harus berupa angka positif" });
+        }
+        if (!Number.isFinite(tjTransportNum) || tjTransportNum <= 0) {
+            return res.status(400).json({ msg: "Tunjangan transport harus berupa angka positif" });
+        }
+        if (!Number.isFinite(uangMakanNum) || uangMakanNum <= 0) {
+            return res.status(400).json({ msg: "Uang makan harus berupa angka positif" });
+        }
+
         if (req.hak_akses === "admin") {
             await DataJabatan.create({
                 id_jabatan: id_jabatan,
                 nama_jabatan: nama_jabatan,
-                gaji_pokok: gaji_pokok,
-                tj_transport: tj_transport,
-                uang_makan: uang_makan,
+                gaji_pokok: gajiPokokNum,
+                tj_transport: tjTransportNum,
+                uang_makan: uangMakanNum,
                 userId: req.userId
             });
         } else {
@@ -94,9 +108,26 @@ export const updateDataJabatan = async (req, res) => {
         });
         if (!jabatan) return res.status(404).json({ msg: "Data tidak ditemukan" });
         const { nama_jabatan, gaji_pokok, tj_transport, uang_makan } = req.body;
+        const gajiPokokNum = Number(gaji_pokok);
+        const tjTransportNum = Number(tj_transport);
+        const uangMakanNum = Number(uang_makan);
+
+        if (!Number.isFinite(gajiPokokNum) || gajiPokokNum <= 0) {
+            return res.status(400).json({ msg: "Gaji pokok harus berupa angka positif" });
+        }
+        if (!Number.isFinite(tjTransportNum) || tjTransportNum <= 0) {
+            return res.status(400).json({ msg: "Tunjangan transport harus berupa angka positif" });
+        }
+        if (!Number.isFinite(uangMakanNum) || uangMakanNum <= 0) {
+            return res.status(400).json({ msg: "Uang makan harus berupa angka positif" });
+        }
+
         if (req.hak_akses === "admin") {
             await DataJabatan.update({
-                nama_jabatan, gaji_pokok, tj_transport, uang_makan
+                nama_jabatan,
+                gaji_pokok: gajiPokokNum,
+                tj_transport: tjTransportNum,
+                uang_makan: uangMakanNum
             }, {
                 where: {
                     id: jabatan.id

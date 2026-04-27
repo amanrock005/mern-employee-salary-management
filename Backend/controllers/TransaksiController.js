@@ -186,6 +186,11 @@ export const deleteDataKehadiran = async (req, res) => {
 export const createDataPotonganGaji = async (req, res) => {
   const { id, potongan, jml_potongan } = req.body;
   try {
+    const jmlPotonganNum = Number(jml_potongan);
+    if (!Number.isFinite(jmlPotonganNum) || jmlPotonganNum <= 0) {
+      return res.status(400).json({ msg: "Jumlah potongan harus berupa angka positif" });
+    }
+
     const nama_potongan = await PotonganGaji.findOne({
       where: {
         potongan: potongan,
@@ -197,7 +202,7 @@ export const createDataPotonganGaji = async (req, res) => {
       await PotonganGaji.create({
         id: id,
         potongan: potongan,
-        jml_potongan: jml_potongan.toLocaleString(),
+        jml_potongan: jmlPotonganNum,
       });
       res.json({ msg: "Tambah Data Potongan Gaji Berhasil" });
     }
@@ -236,12 +241,24 @@ export const viewDataPotonganByID = async (req, res) => {
 // method untuk update Data Potongan
 export const updateDataPotongan = async (req, res) => {
   try {
-    await PotonganGaji.update(req.body, {
+    const jmlPotonganNum = req.body?.jml_potongan !== undefined ? Number(req.body.jml_potongan) : undefined;
+    if (jmlPotonganNum !== undefined) {
+      if (!Number.isFinite(jmlPotonganNum) || jmlPotonganNum <= 0) {
+        return res.status(400).json({ msg: "Jumlah potongan harus berupa angka positif" });
+      }
+    }
+
+    await PotonganGaji.update(
+      {
+        ...req.body,
+        ...(jmlPotonganNum !== undefined ? { jml_potongan: jmlPotonganNum } : {}),
+      },
+      {
       where: {
         id: req.params.id,
       },
     });
-    res.status(200).json({ message: "Data Potongan berhasil diupdate" });
+    res.status(200).json({ msg: "Data Potongan berhasil diupdate" });
   } catch (error) {
     console.log(error.message);
   }
