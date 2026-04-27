@@ -64,6 +64,8 @@ import {
     viewDataGajiSinglePegawaiByYear
 } from '../controllers/Pegawai.js';
 
+import { createOvertimeEntry } from "../controllers/Overtime.js";
+
 const router = express.Router();
 
 // Admin Route :
@@ -103,6 +105,11 @@ router.get('/data_gaji_pegawai', viewDataGajiPegawai);
 router.get('/data_gaji/name/:name', verifyUser, viewDataGajiByName);
 router.get('/data_gaji_pegawai/month/:month', viewDataGajiPegawaiByMonth);
 router.get('/data_gaji_pegawai/year/:year', viewDataGajiPegawaiByYear);
+
+// Overtime / Lembur (site manager/admin)
+router.post("/overtime", verifyUser, adminOnly, createOvertimeEntry);
+// Alias (keeps naming consistent with other endpoints)
+router.post("/data_lembur", verifyUser, adminOnly, createOvertimeEntry);
 
 /* ====  Laporan  ==== */
 // laporan Gaji Pegawai

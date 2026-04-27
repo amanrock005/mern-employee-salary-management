@@ -8,6 +8,7 @@ import { FiDatabase, FiSettings } from 'react-icons/fi'
 import { MdKeyboardArrowDown } from 'react-icons/md'
 import { FaRegMoneyBillAlt } from 'react-icons/fa'
 import { TfiPrinter } from 'react-icons/tfi'
+import { FiClock } from "react-icons/fi"
 import { logoutUser } from '../../../../config/redux/action'
 import { useDispatch } from "react-redux";
 import Swal from 'sweetalert2';
@@ -263,6 +264,18 @@ const SidebarAdmin = ({ sidebarOpen, setSidebarOpen }) => {
                               }
                             >
                               Data Gaji
+                            </NavLink>
+                          </li>
+                          <li>
+                            <NavLink
+                              to='/overtime'
+                              className={({ isActive }) =>
+                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
+                                (isActive && '!text-white')
+                              }
+                            >
+                              <FiClock />
+                              Input Lembur
                             </NavLink>
                           </li>
                         </ul>
