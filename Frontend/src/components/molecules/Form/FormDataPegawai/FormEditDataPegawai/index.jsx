@@ -9,11 +9,13 @@ import { getMe } from '../../../../../config/redux/action';
 import Swal from 'sweetalert2';
 
 const FormEditDataPegawai = () => {
+    const designationOptions = ['Mason', 'Electrician', 'Plumber', 'Supervisor', 'Helper'];
     const [nik, setNik] = useState('');
     const [namaPegawai, setNamaPegawai] = useState('');
     const [username, setUsername] = useState('');
     const [jenisKelamin, setJenisKelamin] = useState('');
     const [jabatan, setJabatan] = useState('');
+    const [designation, setDesignation] = useState('');
     const [tanggalMasuk, setTanggalMasuk] = useState('');
     const [status, setStatus] = useState('');
     const [hakAkses, setHakAkses] = useState('');
@@ -33,6 +35,7 @@ const FormEditDataPegawai = () => {
             formData.append('username', username);
             formData.append('jenis_kelamin', jenisKelamin);
             formData.append('jabatan', jabatan);
+            formData.append('designation', designation);
             formData.append('tanggal_masuk', tanggalMasuk);
             formData.append('status', status);
             formData.append('hak_akses', hakAkses);
@@ -70,6 +73,7 @@ const FormEditDataPegawai = () => {
                 setUsername(data.username);
                 setJenisKelamin(data.jenis_kelamin);
                 setJabatan(data.jabatan);
+                setDesignation(data.designation);
                 setTanggalMasuk(data.tanggal_masuk);
                 setStatus(data.status);
                 setHakAkses(data.hak_akses);
@@ -198,6 +202,32 @@ const FormEditDataPegawai = () => {
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
                                     </div>
+                                    <div className='w-full xl:w-1/2'>
+                                        <label className='mb-2.5 block text-black dark:text-white'>
+                                            Designation <span className='text-meta-1'>*</span>
+                                        </label>
+                                        <div className='relative z-20 bg-transparent dark:bg-form-input'>
+                                            <select
+                                                className='relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
+                                                id='designation'
+                                                name='designation'
+                                                value={designation}
+                                                onChange={(e) => setDesignation(e.target.value)}
+                                                required={true}
+                                            >
+                                                <option value='' disabled={true}>Pilih designation</option>
+                                                {designationOptions.map((d) => (
+                                                    <option key={d} value={d}>{d}</option>
+                                                ))}
+                                            </select>
+                                            <span className='absolute top-1/2 right-4 z-30 -translate-y-1/2 text-2xl'>
+                                                <MdOutlineKeyboardArrowDown />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                                     <div className='w-full xl:w-1/2'>
                                         <label className='mb-2.5 block text-black dark:text-white'>
                                             Tanggal Masuk <span className='text-meta-1'>*</span>

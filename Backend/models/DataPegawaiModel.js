@@ -3,6 +3,8 @@ import db from '../config/Database.js';
 
 const {DataTypes} = Sequelize;
 
+const DESIGNATIONS = ["Mason", "Electrician", "Plumber", "Supervisor", "Helper"];
+
 const DataPegawai = db.define('data_pegawai', {
     id_pegawai:{
         type: DataTypes.STRING,
@@ -34,6 +36,14 @@ const DataPegawai = db.define('data_pegawai', {
     jabatan: {
         type: DataTypes.STRING(50),
         allowNull: false
+    },
+    designation: {
+        type: DataTypes.STRING(30),
+        allowNull: false,
+        validate: {
+            notEmpty: true,
+            isIn: [DESIGNATIONS]
+        }
     },
     tanggal_masuk: {
         type: DataTypes.STRING,

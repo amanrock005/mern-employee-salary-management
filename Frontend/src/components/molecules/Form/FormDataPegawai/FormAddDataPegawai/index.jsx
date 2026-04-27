@@ -9,6 +9,7 @@ import { createDataPegawai, getMe } from '../../../../../config/redux/action';
 import Swal from 'sweetalert2';
 
 const FormAddDataPegawai = () => {
+    const designationOptions = ['Mason', 'Electrician', 'Plumber', 'Supervisor', 'Helper'];
     const [formData, setFormData] = useState({
         nik: '',
         namaPegawai: '',
@@ -17,6 +18,7 @@ const FormAddDataPegawai = () => {
         confPassword: '',
         jenisKelamin: '',
         jabatan: '',
+        designation: '',
         tanggalMasuk: '',
         title: '',
         file: '',
@@ -33,6 +35,7 @@ const FormAddDataPegawai = () => {
         confPassword,
         jenisKelamin,
         jabatan,
+        designation,
         tanggalMasuk,
         title,
         file,
@@ -78,6 +81,7 @@ const FormAddDataPegawai = () => {
         newFormData.append('confPassword', confPassword);
         newFormData.append('jenis_kelamin', jenisKelamin);
         newFormData.append('jabatan', jabatan);
+        newFormData.append('designation', designation);
         newFormData.append('tanggal_masuk', tanggalMasuk);
         newFormData.append('status', status);
         newFormData.append('hak_akses', hak_akses);
@@ -272,6 +276,32 @@ const FormAddDataPegawai = () => {
                                             className='w-full rounded border-[1.5px] border-stroke bg-transparent py-3 px-5 font-medium outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
                                         />
                                     </div>
+                                    <div className='w-full xl:w-1/2'>
+                                        <label className='mb-2.5 block text-black dark:text-white'>
+                                            Designation <span className='text-meta-1'>*</span>
+                                        </label>
+                                        <div className='relative z-20 bg-transparent dark:bg-form-input'>
+                                            <select
+                                                className='relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary'
+                                                id='designation'
+                                                name='designation'
+                                                value={designation}
+                                                onChange={handleChange}
+                                                required={true}
+                                            >
+                                                <option value='' disabled={true}>Pilih designation</option>
+                                                {designationOptions.map((d) => (
+                                                    <option key={d} value={d}>{d}</option>
+                                                ))}
+                                            </select>
+                                            <span className='absolute top-1/2 right-4 z-30 -translate-y-1/2 text-2xl'>
+                                                <MdOutlineKeyboardArrowDown />
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="mb-4.5 flex flex-col gap-6 xl:flex-row">
                                     <div className='w-full xl:w-1/2'>
                                         <label className='mb-2.5 block text-black dark:text-white'>
                                             Tanggal Masuk <span className='text-meta-1'>*</span>
